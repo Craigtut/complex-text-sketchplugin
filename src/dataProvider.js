@@ -38,8 +38,7 @@ export function onComplexTextRequest(context) {
         Settings.setLayerSettingForKey(layer, settingsKey, userInput)
       })
       
-      const complexString = createComplexString(userInput);
-      supplyDataToAll(context, complexString);
+      supplyDataToAll(context, userInput);
 
     }
   } else {
@@ -52,8 +51,7 @@ export function onComplexTextRequest(context) {
             Settings.setLayerSettingForKey(layer, settingsKey, userInput)
           })
 
-          const complexString = createComplexString(userInput);
-          supplyDataToAll(context, complexString);
+          supplyDataToAll(context, userInput);
 
         }
       }
@@ -111,11 +109,12 @@ function processNumberRange(node) {
   return Math.floor(Math.random() * (max - min)) + min;
 }
 
-function supplyDataToAll(context, data) {
+function supplyDataToAll(context, userInput) {
   let dataKey = context.data.key;
   const items = util.toArray(context.data.items).map(sketch.fromNative);
 
   items.forEach((item, index) => {
-    DataSupplier.supplyDataAtIndex(dataKey, data, index);
+    const complexString = createComplexString(userInput);
+    DataSupplier.supplyDataAtIndex(dataKey, complexString, index);
   })
 }
